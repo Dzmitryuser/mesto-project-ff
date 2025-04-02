@@ -2,10 +2,10 @@
 
 
 # ссылка на репозиторий
-
+git@github.com:Dzmitryuser/mesto-project-ff.git
 
 # Ссылка GitHub Pages
-
+https://dzmitryuser.github.io/mesto-project-ff/
 
 # ссылка на макет
 
