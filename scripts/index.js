@@ -4,28 +4,27 @@ const placesItem = cardTemplate.querySelector(".places__item");
 const placesList = document.querySelector(".places__list");
 
 /* Функция добавления карточек */
-function addCard(photoLink, cardName) {
-
+function createCard(photoLink, cardName, deleteCardHandler) {
   /* Клонируем карточку */
   const placeClonedCard = cardTemplate.cloneNode(true);
 
   /* Наполняем элементы клонированной карточки*/
-  placeClonedCard.querySelector(".card__image").src = photoLink;
-  placeClonedCard.querySelector(".card__image").alt = cardName;
-  placeClonedCard.querySelector(".card__title").textContent = cardName;
+  const imageTitle = placeClonedCard.querySelector(".card__title");
+  const carrdImage = placeClonedCard.querySelector(".card__image");
+  carrdImage.src = photoLink;
+  carrdImage.alt = cardName;
+  imageTitle.textContent = cardName;
 
   /* Вызов функции удаления карточек со слушателем кнопки удаления */
   const deleteButton = placeClonedCard.querySelector(".card__delete-button");
-  deleteButton.addEventListener("click", deleteCard);
-
-  /* Элемент функции добавления карточки, производящий непосредственное добавление*/
-  placesList.append(placeClonedCard);
+  deleteButton.addEventListener("click", deleteCardHandler);
+  return placeClonedCard;
 }
 
 /* первичный (при загрузке страницы) рендер карточек */
-for (i = 0; i <= initialCards.length - 1; i++) {
-  addCard(initialCards[i].link, initialCards[i].name);
-}
+initialCards.forEach((element) => {
+  placesList.append(createCard(element.link, element.name, deleteCard));
+});
 
 /* Функция удаления карточки  от элемента на котором произошло событие*/
 function deleteCard(event) {
