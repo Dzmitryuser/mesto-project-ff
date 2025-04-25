@@ -95,7 +95,7 @@ const closeAllPopups = () => {
 const likeButtonFunction = (eventButton) => {
   const currentBg = getComputedStyle(eventButton).backgroundImage;
 
-  if (currentBg.includes("like-inactive.svg")) {
+  if (currentBg.includes("like-inactive")) {
     eventButton.style.background =
       `transparent url("${likedButton}") no-repeat`;
   } else {
