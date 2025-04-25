@@ -59,35 +59,42 @@ const editProfileOpen = () => {
   editProfileFormDescriptionFild.value = document.querySelector(
     ".profile__description"
   ).textContent;
-  profileEditModalWindow.style.display = "flex";
+  profileEditModalWindow.classList.add('popup_is-animated');
+  profileEditModalWindow.classList.add('popup_is-opened');
 };
 
 /* Открытие окна добавления карточки */
 const addCardOpen = () => {
-  addNewCardModalWindow.style.display = "flex";
+  addNewCardModalWindow.classList.add('popup_is-animated');
+  addNewCardModalWindow.classList.add('popup_is-opened');
 };
 
 /* Открытие окна с картинкой и описанием */
 const popupPhotoOpen = (tergetElement) => {
-  popupImageHolder.style.display = "flex";
+  popupImageHolder.classList.add('popup_is-animated');
+  popupImageHolder.classList.add('popup_is-opened');
   popupImage.src = tergetElement.src;
   popupImageCaption.textContent = tergetElement.alt;
 };
 
 /* Закрытие модальных окон по кнопке*/
 const allPopupWindowsCloseByButton = (targetElement) => {
-  targetElement.closest(".popup").style.display = "none";
+  targetElement.closest(".popup").classList.remove('popup_is-animated');
+  targetElement.closest(".popup").classList.remove('popup_is-opened');
 };
 
 /* Закрытие модальных окон по клику на оверлей */
 const closeAllPopupsOnOverlayClick = (popupOverlay) => {
-  popupOverlay.style.display = "none";
+  popupOverlay.classList.remove('popup_is-animated');
+  popupOverlay.classList.remove('popup_is-opened');
+
 };
 
 /* Закрытие модальных окон по нажатию на "Esc" */
 const closeAllPopups = () => {
   document.querySelectorAll(".popup").forEach((popup) => {
-    popup.style.display = "none";
+    popup.classList.remove('popup_is-animated');
+    popup.classList.remove('popup_is-opened');
   });
 };
 
