@@ -1,7 +1,7 @@
-import '../pages/index.css';
-import {initialCards} from './cards.js';
-import likedButton from '../images/like-active.svg';
-import unlikedButton from '../images/like-inactive.svg';
+import "../pages/index.css";
+import { initialCards } from "./cards.js";
+import likedButton from "../images/like-active.svg";
+import unlikedButton from "../images/like-inactive.svg";
 
 /* Объявляем переменные */
 const fullPage = document.querySelector(".page");
@@ -52,6 +52,16 @@ function deleteCard(event) {
   cardToDelete.remove();
 }
 
+/* Функция открытия любого окна */
+const anyPopupOpenFunction = (popupToOpen) => {
+  popupToOpen.classList.add("popup_is-opened");
+};
+
+/* Функция закрытия любого окна */
+const anyPopupCloseFenction = (popupToClose) => {
+  popupToClose.classList.remove("popup_is-opened");
+};
+
 /* Открытие окна редактирования профиля*/
 const editProfileOpen = () => {
   editProfileFormNameFild.value =
@@ -59,42 +69,35 @@ const editProfileOpen = () => {
   editProfileFormDescriptionFild.value = document.querySelector(
     ".profile__description"
   ).textContent;
-  profileEditModalWindow.classList.add('popup_is-animated');
-  profileEditModalWindow.classList.add('popup_is-opened');
+  anyPopupOpenFunction(profileEditModalWindow);
 };
 
 /* Открытие окна добавления карточки */
 const addCardOpen = () => {
-  addNewCardModalWindow.classList.add('popup_is-animated');
-  addNewCardModalWindow.classList.add('popup_is-opened');
+  anyPopupOpenFunction(addNewCardModalWindow);
 };
 
 /* Открытие окна с картинкой и описанием */
 const popupPhotoOpen = (tergetElement) => {
-  popupImageHolder.classList.add('popup_is-animated');
-  popupImageHolder.classList.add('popup_is-opened');
+  anyPopupOpenFunction(popupImageHolder);
   popupImage.src = tergetElement.src;
   popupImageCaption.textContent = tergetElement.alt;
 };
 
 /* Закрытие модальных окон по кнопке*/
 const allPopupWindowsCloseByButton = (targetElement) => {
-  targetElement.closest(".popup").classList.remove('popup_is-animated');
-  targetElement.closest(".popup").classList.remove('popup_is-opened');
+  targetElement.closest(".popup").classList.remove("popup_is-opened");
 };
 
 /* Закрытие модальных окон по клику на оверлей */
 const closeAllPopupsOnOverlayClick = (popupOverlay) => {
-  popupOverlay.classList.remove('popup_is-animated');
-  popupOverlay.classList.remove('popup_is-opened');
-
+  anyPopupCloseFenction(popupOverlay);
 };
 
 /* Закрытие модальных окон по нажатию на "Esc" */
 const closeAllPopups = () => {
   document.querySelectorAll(".popup").forEach((popup) => {
-    popup.classList.remove('popup_is-animated');
-    popup.classList.remove('popup_is-opened');
+    anyPopupCloseFenction(popup);
   });
 };
 
@@ -103,11 +106,9 @@ const likeButtonFunction = (eventButton) => {
   const currentBg = getComputedStyle(eventButton).backgroundImage;
 
   if (currentBg.includes("like-inactive")) {
-    eventButton.style.background =
-      `transparent url("${likedButton}") no-repeat`;
+    eventButton.style.background = `transparent url("${likedButton}") no-repeat`;
   } else {
-    eventButton.style.background =
-      `transparent url("${unlikedButton}") no-repeat`;
+    eventButton.style.background = `transparent url("${unlikedButton}") no-repeat`;
   }
 };
 
