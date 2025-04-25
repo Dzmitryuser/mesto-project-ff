@@ -1,5 +1,7 @@
 import '../pages/index.css';
 import {initialCards} from './cards.js';
+import likedButton from '../images/like-active.svg';
+import unlikedButton from '../images/like-inactive.svg';
 
 /* Объявляем переменные */
 const fullPage = document.querySelector(".page");
@@ -95,10 +97,10 @@ const likeButtonFunction = (eventButton) => {
 
   if (currentBg.includes("like-inactive.svg")) {
     eventButton.style.background =
-      "transparent url('../../../images/like-active.svg') no-repeat";
+      `transparent url("${likedButton}") no-repeat`;
   } else {
     eventButton.style.background =
-      "transparent url('../../../images/like-inactive.svg') no-repeat";
+      `transparent url("${unlikedButton}") no-repeat`;
   }
 };
 
