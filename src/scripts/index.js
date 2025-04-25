@@ -1,5 +1,6 @@
 import '../pages/index.css';
 import {initialCards} from './cards.js';
+
 /* Объявляем переменные */
 const fullPage = document.querySelector(".page");
 const cardTemplate = document.querySelector("#card-template").content;
