@@ -50,55 +50,6 @@ function deleteCard(event) {
   cardToDelete.remove();
 }
 
-/* Функция открытия любого окна */
-const anyPopupOpenFunction = (popupToOpen) => {
-  popupToOpen.classList.add("popup_is-opened");
-};
-
-/* Функция закрытия любого окна */
-const anyPopupCloseFenction = (popupToClose) => {
-  popupToClose.classList.remove("popup_is-opened");
-};
-
-/* Открытие окна редактирования профиля*/
-const editProfileOpen = () => {
-  editProfileFormNameFild.value =
-    document.querySelector(".profile__title").textContent;
-  editProfileFormDescriptionFild.value = document.querySelector(
-    ".profile__description"
-  ).textContent;
-  anyPopupOpenFunction(profileEditModalWindow);
-};
-
-/* Открытие окна добавления карточки */
-const addCardOpen = () => {
-  anyPopupOpenFunction(addNewCardModalWindow);
-};
-
-/* Открытие окна с картинкой и описанием */
-const popupPhotoOpen = (tergetElement) => {
-  anyPopupOpenFunction(popupImageHolder);
-  popupImage.src = tergetElement.src;
-  popupImageCaption.textContent = tergetElement.alt;
-};
-
-/* Закрытие модальных окон по кнопке*/
-const allPopupWindowsCloseByButton = (targetElement) => {
-  targetElement.closest(".popup").classList.remove("popup_is-opened");
-};
-
-/* Закрытие модальных окон по клику на оверлей */
-const closeAllPopupsOnOverlayClick = (popupOverlay) => {
-  anyPopupCloseFenction(popupOverlay);
-};
-
-/* Закрытие модальных окон по нажатию на "Esc" */
-const closeAllPopups = () => {
-  document.querySelectorAll(".popup").forEach((popup) => {
-    anyPopupCloseFenction(popup);
-  });
-};
-
 /* Функционал лайка карточки */
 const likeButtonFunction = (eventButton) => {
   const currentBg = getComputedStyle(eventButton).backgroundImage;
@@ -110,18 +61,46 @@ const likeButtonFunction = (eventButton) => {
   }
 };
 
+/* Функция открытия любого окна */
+const anyPopupOpenFunction = (popupToOpen) => {
+  popupToOpen.classList.add("popup_is-opened");
+};
+
+/* Функция закрытия любого окна */
+const anyPopupCloseFenction = (popupToClose) => {
+  popupToClose.classList.remove("popup_is-opened");
+};
+
 /* Функция - обработчик событий клик */
 fullPage.addEventListener("click", (evt) => {
+  /* Открытие окна редактирования профиля */
   if (evt.target.classList.contains("profile__edit-button")) {
-    editProfileOpen();
+    editProfileFormNameFild.value =
+      document.querySelector(".profile__title").textContent;
+    editProfileFormDescriptionFild.value = document.querySelector(
+      ".profile__description"
+    ).textContent;
+    anyPopupOpenFunction(profileEditModalWindow);
+
+    /* Открытие окна добавления карточки */
   } else if (evt.target.classList.contains("profile__add-button")) {
-    addCardOpen();
+    anyPopupOpenFunction(addNewCardModalWindow);
+
+    /* Открытие окна с изображением */
   } else if (evt.target.classList.contains("card__image")) {
-    popupPhotoOpen(evt.target);
+    popupImage.src = evt.target.src;
+    popupImageCaption.textContent = evt.target.alt;
+    anyPopupOpenFunction(popupImageHolder);
+
+    /* Закрытие по нажатию на кнопку */
   } else if (evt.target.classList.contains("popup__close")) {
-    allPopupWindowsCloseByButton(evt.target);
+    anyPopupCloseFenction(evt.target.closest(".popup"));
+
+    /* Закрытие по нажатию на оверлей */
   } else if (evt.target.classList.contains("popup")) {
-    closeAllPopupsOnOverlayClick(evt.target);
+    anyPopupCloseFenction(evt.target);
+
+    /* Слушатель нажатия на кнопку лайка */
   } else if (evt.target.classList.contains("card__like-button")) {
     likeButtonFunction(evt.target);
   }
@@ -130,7 +109,9 @@ fullPage.addEventListener("click", (evt) => {
 /* Функция - обработчик событий нажатия на "Esc" */
 fullPage.addEventListener("keydown", (evt) => {
   if (evt.key === "Escape") {
-    closeAllPopups();
+    document.querySelectorAll(".popup").forEach((popup) => {
+      anyPopupCloseFenction(popup);
+    });
   }
 });
 
@@ -149,9 +130,6 @@ function handleeditProfileForm(evt) {
   closeAllPopups();
 }
 
-/* Обработчик к форме редактирования профиля по “submit” */
-editProfileForm.addEventListener("submit", handleeditProfileForm);
-
 /* Функция добавления карточки из данных формы */
 function handleaddCardForm(evt) {
   evt.preventDefault();
@@ -166,3 +144,6 @@ function handleaddCardForm(evt) {
 
 /* Обработчик к форме добавления карточки по “submit” */
 addCardForm.addEventListener("submit", handleaddCardForm);
+
+/* Обработчик к форме редактирования профиля по “submit” */
+editProfileForm.addEventListener("submit", handleeditProfileForm);
