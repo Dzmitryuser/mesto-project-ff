@@ -12,14 +12,15 @@ const addNewCardModalWindow = document.querySelector(".popup_type_new-card");
 const popupImageHolder = document.querySelector(".popup_type_image");
 const popupImage = document.querySelector(".popup__image");
 const popupImageCaption = document.querySelector(".popup__caption");
-const editProfileFormNameFild = document.querySelector(
+const editProfileFormNameField = document.querySelector(
   ".popup__input_type_name"
 );
-const editProfileFormDescriptionFild = document.querySelector(
+editProfileFormNameField;
+const editProfileFormDescriptionField = document.querySelector(
   ".popup__input_type_description"
 );
-const likeButton = document.querySelector(".card__like-button");
-const allPopups = document.querySelector(".popup");
+const profileTitle = document.querySelector(".profile__title");
+const prifileDescription = document.querySelector(".profile__description");
 
 /* Функция добавления карточек */
 const createCard = (photoLink, cardName, deleteCardHandler) => {
@@ -67,7 +68,7 @@ const anyPopupOpenFunction = (popupToOpen) => {
 };
 
 /* Функция закрытия любого окна */
-const anyPopupCloseFenction = (popupToClose) => {
+const anyPopupCloseFunction = (popupToClose) => {
   popupToClose.classList.remove("popup_is-opened");
 };
 
@@ -75,11 +76,8 @@ const anyPopupCloseFenction = (popupToClose) => {
 fullPage.addEventListener("click", (evt) => {
   /* Открытие окна редактирования профиля */
   if (evt.target.classList.contains("profile__edit-button")) {
-    editProfileFormNameFild.value =
-      document.querySelector(".profile__title").textContent;
-    editProfileFormDescriptionFild.value = document.querySelector(
-      ".profile__description"
-    ).textContent;
+    editProfileFormNameField.value = profileTitle.textContent;
+    editProfileFormDescriptionField.value = prifileDescription.textContent;
     anyPopupOpenFunction(profileEditModalWindow);
 
     /* Открытие окна добавления карточки */
@@ -94,11 +92,11 @@ fullPage.addEventListener("click", (evt) => {
 
     /* Закрытие по нажатию на кнопку */
   } else if (evt.target.classList.contains("popup__close")) {
-    anyPopupCloseFenction(evt.target.closest(".popup"));
+    anyPopupCloseFunction(evt.target.closest(".popup"));
 
     /* Закрытие по нажатию на оверлей */
   } else if (evt.target.classList.contains("popup")) {
-    anyPopupCloseFenction(evt.target);
+    anyPopupCloseFunction(evt.target);
 
     /* Слушатель нажатия на кнопку лайка */
   } else if (evt.target.classList.contains("card__like-button")) {
@@ -110,7 +108,7 @@ fullPage.addEventListener("click", (evt) => {
 fullPage.addEventListener("keydown", (evt) => {
   if (evt.key === "Escape") {
     document.querySelectorAll(".popup").forEach((popup) => {
-      anyPopupCloseFenction(popup);
+      anyPopupCloseFunction(popup);
     });
   }
 });
@@ -120,14 +118,12 @@ const editProfileForm = document.forms["edit-profile"];
 const addCardForm = document.forms["new-place"];
 
 /* Функция присвоения данных профиля из формы */
-function handleeditProfileForm(evt) {
+function handleEditProfileForm(evt) {
   evt.preventDefault();
-  document.querySelector(".profile__title").textContent =
-    editProfileFormNameFild.value;
-  document.querySelector(".profile__description").textContent =
-    editProfileFormDescriptionFild.value;
+  profileTitle.textContent = editProfileFormNameField.value;
+  prifileDescription.textContent = editProfileFormDescriptionField.value;
   editProfileForm.reset();
-  closeAllPopups();
+  anyPopupCloseFunction(evt.target.closest(".popup"));
 }
 
 /* Функция добавления карточки из данных формы */
@@ -139,11 +135,11 @@ function handleaddCardForm(evt) {
   const newImageUrl = document.querySelector(".popup__input_type_url").value;
   placesList.prepend(createCard(newImageUrl, newImageName, deleteCard));
   addCardForm.reset();
-  closeAllPopups();
+  anyPopupCloseFunction(evt.target.closest(".popup"));
 }
 
 /* Обработчик к форме добавления карточки по “submit” */
 addCardForm.addEventListener("submit", handleaddCardForm);
 
 /* Обработчик к форме редактирования профиля по “submit” */
-editProfileForm.addEventListener("submit", handleeditProfileForm);
+editProfileForm.addEventListener("submit", handleEditProfileForm);
