@@ -1,7 +1,6 @@
 import "../pages/index.css";
-import { initialCards } from "./cards.js";
-import likedButton from "../images/like-active.svg";
-import unlikedButton from "../images/like-inactive.svg";
+import { initialCards, likeButtonFunction } from "./cards.js";
+import { anyPopupOpenFunction, anyPopupCloseFunction } from "./modal.js";
 
 /* Объявляем переменные */
 const fullPage = document.querySelector(".page");
@@ -50,27 +49,6 @@ function deleteCard(event) {
   const cardToDelete = event.target.closest(".places__item");
   cardToDelete.remove();
 }
-
-/* Функционал лайка карточки */
-const likeButtonFunction = (eventButton) => {
-  const currentBg = getComputedStyle(eventButton).backgroundImage;
-
-  if (currentBg.includes("like-inactive")) {
-    eventButton.style.background = `transparent url("${likedButton}") no-repeat`;
-  } else {
-    eventButton.style.background = `transparent url("${unlikedButton}") no-repeat`;
-  }
-};
-
-/* Функция открытия любого окна */
-const anyPopupOpenFunction = (popupToOpen) => {
-  popupToOpen.classList.add("popup_is-opened");
-};
-
-/* Функция закрытия любого окна */
-const anyPopupCloseFunction = (popupToClose) => {
-  popupToClose.classList.remove("popup_is-opened");
-};
 
 /* Функция - обработчик событий клик */
 fullPage.addEventListener("click", (evt) => {
