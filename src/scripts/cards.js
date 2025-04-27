@@ -33,9 +33,6 @@ export const initialCards = [
   },
 ];
 
-/* Функционал открытия попап окна с изображением */
-
-export function openPopupImage() {}
 
 /* Функционал лайка карточки */
 export function likeButtonFunction(event) {
