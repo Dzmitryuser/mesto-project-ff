@@ -30,11 +30,9 @@ export const initialCards = [
 
 /* Функционал лайка карточки */
 export const likeButtonFunction = (eventButton) => {
-  const currentBg = getComputedStyle(eventButton).backgroundImage;
-
-  if (currentBg.includes("like-inactive")) {
-    eventButton.style.background = `transparent url("${likedButton}") no-repeat`;
+  if (eventButton.classList.contains("card__like-button_is-active")) {
+    eventButton.classList.remove("card__like-button_is-active");
   } else {
-    eventButton.style.background = `transparent url("${unlikedButton}") no-repeat`;
+    eventButton.classList.add("card__like-button_is-active");
   }
 };
