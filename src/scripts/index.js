@@ -1,16 +1,24 @@
 import "../pages/index.css";
-import { initialCards, likeButtonFunction } from "./cards.js";
-import { openAnyPopupFunction, closeAnyPopupFunction } from "./modal.js";
+import {
+  initialCards,
+  createCard,
+  deleteCard,
+  likeButtonFunction,
+  openImagePopupFunction,
+} from "./cards.js";
+import {
+  openAnyPopupFunction,
+  closeAnyPopupFunction,
+  handleEscapeKey,
+  handleOverlayClick,
+} from "./modal.js";
 
 /* Объявляем переменные */
 const fullPage = document.querySelector(".page");
-const cardTemplate = document.querySelector("#card-template").content;
+
 const placesList = document.querySelector(".places__list");
 const profileEditModalWindow = document.querySelector(".popup_type_edit");
 const addNewCardModalWindow = document.querySelector(".popup_type_new-card");
-const popupImageHolder = document.querySelector(".popup_type_image");
-const popupImage = document.querySelector(".popup__image");
-const popupImageCaption = document.querySelector(".popup__caption");
 const editProfileFormNameField = document.querySelector(
   ".popup__input_type_name"
 );
@@ -21,34 +29,18 @@ const editProfileFormDescriptionField = document.querySelector(
 const profileTitle = document.querySelector(".profile__title");
 const prifileDescription = document.querySelector(".profile__description");
 
-/* Функция добавления карточек */
-const createCard = (photoLink, cardName, deleteCardHandler) => {
-  /* Клонируем карточку */
-  const placeClonedCard = cardTemplate.cloneNode(true);
-
-  /* Наполняем элементы клонированной карточки*/
-  const imageTitle = placeClonedCard.querySelector(".card__title");
-  const cardImage = placeClonedCard.querySelector(".card__image");
-  cardImage.src = photoLink;
-  cardImage.alt = cardName;
-  imageTitle.textContent = cardName;
-
-  /* Вызов функции удаления карточек со слушателем кнопки удаления */
-  const deleteButton = placeClonedCard.querySelector(".card__delete-button");
-  deleteButton.addEventListener("click", deleteCardHandler);
-  return placeClonedCard;
-};
-
 /* Первичный (при загрузке страницы) рендер карточек */
 initialCards.forEach((element) => {
-  placesList.append(createCard(element.link, element.name, deleteCard));
+  placesList.append(
+    createCard(
+      element.link,
+      element.name,
+      deleteCard,
+      likeButtonFunction,
+      openImagePopupFunction
+    )
+  );
 });
-
-/* Функция удаления карточки*/
-function deleteCard(event) {
-  const cardToDelete = event.target.closest(".places__item");
-  cardToDelete.remove();
-}
 
 /* Функция - обработчик событий клик */
 fullPage.addEventListener("click", (evt) => {
@@ -62,31 +54,9 @@ fullPage.addEventListener("click", (evt) => {
   } else if (evt.target.classList.contains("profile__add-button")) {
     openAnyPopupFunction(addNewCardModalWindow);
 
-    /* Открытие окна с изображением */
-  } else if (evt.target.classList.contains("card__image")) {
-    popupImage.src = evt.target.src;
-    popupImageCaption.textContent = evt.target.alt;
-    openAnyPopupFunction(popupImageHolder);
-
     /* Закрытие по нажатию на кнопку */
   } else if (evt.target.classList.contains("popup__close")) {
     closeAnyPopupFunction(evt.target.closest(".popup"));
-
-    /* Закрытие по нажатию на оверлей */
-  } else if (evt.target.classList.contains("popup")) {
-    closeAnyPopupFunction(evt.target);
-
-    /* Слушатель нажатия на кнопку лайка */
-  } else if (evt.target.classList.contains("card__like-button")) {
-    likeButtonFunction(evt.target);
-  }
-});
-
-/* Функция - обработчик событий нажатия на "Esc" */
-fullPage.addEventListener("keydown", (evt) => {
-  if (evt.key === "Escape") {
-    const openedPopupToClose = document.querySelector(".popup_is-opened");
-      closeAnyPopupFunction(openedPopupToClose);
   }
 });
 
@@ -109,7 +79,15 @@ function handleaddCardForm(evt) {
     ".popup__input_type_card-name"
   ).value;
   const newImageUrl = document.querySelector(".popup__input_type_url").value;
-  placesList.prepend(createCard(newImageUrl, newImageName, deleteCard));
+  placesList.prepend(
+    createCard(
+      newImageUrl,
+      newImageName,
+      deleteCard,
+      likeButtonFunction,
+      openImagePopupFunction
+    )
+  );
   addCardForm.reset();
   closeAnyPopupFunction(addNewCardModalWindow);
 }
