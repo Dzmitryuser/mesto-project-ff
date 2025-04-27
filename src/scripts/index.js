@@ -1,6 +1,6 @@
 import "../pages/index.css";
 import { initialCards, likeButtonFunction } from "./cards.js";
-import { anyPopupOpenFunction, anyPopupCloseFunction } from "./modal.js";
+import { openAnyPopupFunction, closeAnyPopupFunction } from "./modal.js";
 
 /* Объявляем переменные */
 const fullPage = document.querySelector(".page");
@@ -56,25 +56,25 @@ fullPage.addEventListener("click", (evt) => {
   if (evt.target.classList.contains("profile__edit-button")) {
     editProfileFormNameField.value = profileTitle.textContent;
     editProfileFormDescriptionField.value = prifileDescription.textContent;
-    anyPopupOpenFunction(profileEditModalWindow);
+    openAnyPopupFunction(profileEditModalWindow);
 
     /* Открытие окна добавления карточки */
   } else if (evt.target.classList.contains("profile__add-button")) {
-    anyPopupOpenFunction(addNewCardModalWindow);
+    openAnyPopupFunction(addNewCardModalWindow);
 
     /* Открытие окна с изображением */
   } else if (evt.target.classList.contains("card__image")) {
     popupImage.src = evt.target.src;
     popupImageCaption.textContent = evt.target.alt;
-    anyPopupOpenFunction(popupImageHolder);
+    openAnyPopupFunction(popupImageHolder);
 
     /* Закрытие по нажатию на кнопку */
   } else if (evt.target.classList.contains("popup__close")) {
-    anyPopupCloseFunction(evt.target.closest(".popup"));
+    closeAnyPopupFunction(evt.target.closest(".popup"));
 
     /* Закрытие по нажатию на оверлей */
   } else if (evt.target.classList.contains("popup")) {
-    anyPopupCloseFunction(evt.target);
+    closeAnyPopupFunction(evt.target);
 
     /* Слушатель нажатия на кнопку лайка */
   } else if (evt.target.classList.contains("card__like-button")) {
@@ -85,9 +85,8 @@ fullPage.addEventListener("click", (evt) => {
 /* Функция - обработчик событий нажатия на "Esc" */
 fullPage.addEventListener("keydown", (evt) => {
   if (evt.key === "Escape") {
-    document.querySelectorAll(".popup").forEach((popup) => {
-      anyPopupCloseFunction(popup);
-    });
+    const openedPopupToClose = document.querySelector(".popup_is-opened");
+      closeAnyPopupFunction(openedPopupToClose);
   }
 });
 
@@ -100,8 +99,7 @@ function handleEditProfileForm(evt) {
   evt.preventDefault();
   profileTitle.textContent = editProfileFormNameField.value;
   prifileDescription.textContent = editProfileFormDescriptionField.value;
-  editProfileForm.reset();
-  anyPopupCloseFunction(evt.target.closest(".popup"));
+  closeAnyPopupFunction(profileEditModalWindow);
 }
 
 /* Функция добавления карточки из данных формы */
@@ -113,7 +111,7 @@ function handleaddCardForm(evt) {
   const newImageUrl = document.querySelector(".popup__input_type_url").value;
   placesList.prepend(createCard(newImageUrl, newImageName, deleteCard));
   addCardForm.reset();
-  anyPopupCloseFunction(evt.target.closest(".popup"));
+  closeAnyPopupFunction(addNewCardModalWindow);
 }
 
 /* Обработчик к форме добавления карточки по “submit” */
