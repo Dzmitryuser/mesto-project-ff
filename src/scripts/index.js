@@ -1,17 +1,19 @@
+import likedButton from "../images/like-active.svg";
+import unlikedButton from "../images/like-inactive.svg";
 import "../pages/index.css";
 import {
-  initialCards,
-  createCard,
-  deleteCard,
-  likeButtonFunction,
-  openImagePopupFunction,
+  initialCards
 } from "./cards.js";
 import {
   openAnyPopupFunction,
   closeAnyPopupFunction,
-  handleEscapeKey,
-  handleOverlayClick,
 } from "./modal.js";
+import {
+  createCard,
+  deleteCard,
+  likeButtonFunction,
+  openImagePopupFunction,
+} from "./card.js";
 
 /* Объявляем переменные */
 const fullPage = document.querySelector(".page");
