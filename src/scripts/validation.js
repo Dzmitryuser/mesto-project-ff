@@ -14,9 +14,13 @@ enableValidation({
 
 clearValidation(profileForm, validationConfig);
 
+ // название
+ const regex = /^[A-Za-zА-Яа-яёЁ\- ]+$/;
 
 
 
+
+ /*
 const showInputError = (formElement, inputElement, errorMessage) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
     inputElement.classList.add('form__input_type_error');
@@ -90,4 +94,4 @@ const showInputError = (formElement, inputElement, errorMessage) => {
   
   
   
-  
+  */
