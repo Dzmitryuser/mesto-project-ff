@@ -14,7 +14,10 @@ import {
   likeButtonFunction,
   openImagePopupFunction,
 } from "./card.js";
-
+import {
+  enableValidation,
+  clearValidation
+} from "./validation.js";
 /* Объявляем переменные */
 const fullPage = document.querySelector(".page");
 
@@ -95,7 +98,7 @@ function handleaddCardForm(evt) {
 }
 
 /* Обработчик к форме добавления карточки по “submit” */
-addCardForm.addEventListener("submit", handleaddCardForm);
+addCardForm.addEventListener("submit", handleaddCardForm, enableValidation);
 
 /* Обработчик к форме редактирования профиля по “submit” */
-editProfileForm.addEventListener("submit", handleEditProfileForm);
+editProfileForm.addEventListener("submit", handleEditProfileForm, enableValidation);

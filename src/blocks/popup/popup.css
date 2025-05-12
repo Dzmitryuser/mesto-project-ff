@@ -22,7 +22,19 @@
   z-index: 10;
 }
 
-.form__input-error {
+.popup__input_type_error {
+ border-block-end: 1px solid #FF0000;
+}
+
+.popup__button_disabled {
+  pointer-events: none;
+  color: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  cursor: not-allowed;
+  background-color: #FFF;
+}
+
+.popup__error_visible {
   font-family: 'Inter', sans-serif;
   color: #FF0000;
   font-size: 12px;;
