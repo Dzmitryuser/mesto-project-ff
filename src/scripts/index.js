@@ -16,8 +16,10 @@ import {
 } from "./card.js";
 import {
   enableValidation,
-  clearValidation
+  clearValidation,
+  validationConfig
 } from "./validation.js";
+
 /* Объявляем переменные */
 const fullPage = document.querySelector(".page");
 
@@ -62,6 +64,7 @@ fullPage.addEventListener("click", (evt) => {
     /* Закрытие по нажатию на кнопку */
   } else if (evt.target.classList.contains("popup__close")) {
     closeAnyPopupFunction(evt.target.closest(".popup"));
+    clearValidation(evt.target.closest(".popup"), validationConfig)
   }
 });
 

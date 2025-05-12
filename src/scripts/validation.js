@@ -1,4 +1,4 @@
-const validationConfig = {
+export const validationConfig = {
   formSelector: ".popup__form",
   inputSelector: ".popup__input",
   submitButtonSelector: ".popup__button",
@@ -86,5 +86,4 @@ export const clearValidation = (formElement, config) => {
   
   toggleButtonState(inputList, buttonElement);
 };
-
-enableValidation ();
+enableValidation();
