@@ -100,8 +100,10 @@ function handleaddCardForm(evt) {
   closeAnyPopupFunction(addNewCardModalWindow);
 }
 
-/* Обработчик к форме добавления карточки по “submit” */
-addCardForm.addEventListener("submit", handleaddCardForm, enableValidation);
+/* Обработчик к форме добавления карточки по "submit" */
+addCardForm.addEventListener("submit",  handleaddCardForm);
+addCardForm.addEventListener("input", () => enableValidation(validationConfig)); 
 
-/* Обработчик к форме редактирования профиля по “submit” */
-editProfileForm.addEventListener("submit", handleEditProfileForm, enableValidation);
+/* Обработчик к форме редактирования профиля по "submit" */
+editProfileForm.addEventListener("submit", handleEditProfileForm);
+editProfileForm.addEventListener("input", () => enableValidation(validationConfig));
