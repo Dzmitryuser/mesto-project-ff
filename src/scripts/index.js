@@ -20,9 +20,16 @@ import {
   validationConfig
 } from "./validation.js";
 
-/* Объявляем переменные */
-const fullPage = document.querySelector(".page");
+import {
+  getAboutUser,
+  getCardsArray,
+} from "./api.js";
 
+getAboutUser();
+
+
+
+const fullPage = document.querySelector(".page");
 const placesList = document.querySelector(".places__list");
 const profileEditModalWindow = document.querySelector(".popup_type_edit");
 const addNewCardModalWindow = document.querySelector(".popup_type_new-card");
@@ -100,10 +107,8 @@ function handleaddCardForm(evt) {
   closeAnyPopupFunction(addNewCardModalWindow);
 }
 
-/* Обработчик к форме добавления карточки по "submit" */
 addCardForm.addEventListener("submit",  handleaddCardForm);
 addCardForm.addEventListener("input", () => enableValidation(validationConfig)); 
 
-/* Обработчик к форме редактирования профиля по "submit" */
 editProfileForm.addEventListener("submit", handleEditProfileForm);
 editProfileForm.addEventListener("input", () => enableValidation(validationConfig));

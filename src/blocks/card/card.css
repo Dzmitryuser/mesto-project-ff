@@ -13,3 +13,15 @@
   position: relative;
   overflow: hidden;
 }
+
+.like_wraper {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: center;
+  justify-content: center;
+}
+
+.card_like_counter {
+  font-size: 13px;
+}

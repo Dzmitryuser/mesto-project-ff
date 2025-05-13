@@ -69,7 +69,10 @@
               data-error="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
             />
             <span class="popup__error description-input-error"></span>
-            <button type="submit" class="button popup__button popup__button_disabled">
+            <button
+              type="submit"
+              class="button popup__button popup__button_disabled"
+            >
               Сохранить
             </button>
           </form>
@@ -100,7 +103,10 @@
               required
             />
             <span class="popup__error link-input-error"></span>
-            <button type="submit" class="button popup__button popup__button_disabled">
+            <button
+              type="submit"
+              class="button popup__button popup__button_disabled"
+            >
               Сохранить
             </button>
           </form>
@@ -121,7 +127,10 @@
         <button type="button" class="card__delete-button"></button>
         <div class="card__description">
           <h2 class="card__title"></h2>
-          <button type="button" class="card__like-button"></button>
+          <div class="like_wraper">
+            <button type="button" class="card__like-button"></button>
+            <span class="card_like_counter">0</span>
+          </div>
         </div>
       </li>
     </template>
