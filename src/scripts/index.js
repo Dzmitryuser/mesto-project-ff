@@ -1,13 +1,8 @@
 import likedButton from "../images/like-active.svg";
 import unlikedButton from "../images/like-inactive.svg";
 import "../pages/index.css";
-import {
-  initialCards
-} from "./cards.js";
-import {
-  openAnyPopupFunction,
-  closeAnyPopupFunction,
-} from "./modal.js";
+import { initialCards } from "./cards.js";
+import { openAnyPopupFunction, closeAnyPopupFunction } from "./modal.js";
 import {
   createCard,
   deleteCard,
@@ -17,17 +12,12 @@ import {
 import {
   enableValidation,
   clearValidation,
-  validationConfig
+  validationConfig,
 } from "./validation.js";
 
-import {
-  getAboutUser,
-  getCardsArray,
-} from "./api.js";
+import { getAboutUser, getCardsArray, updateUserProfile, createNewCard } from "./api.js";
 
 getAboutUser();
-
-
 
 const fullPage = document.querySelector(".page");
 const placesList = document.querySelector(".places__list");
@@ -42,18 +32,31 @@ const editProfileFormDescriptionField = document.querySelector(
 );
 const profileTitle = document.querySelector(".profile__title");
 const prifileDescription = document.querySelector(".profile__description");
+const avatar = document.querySelector(".profile__image");
 
-/* Первичный (при загрузке страницы) рендер карточек */
-initialCards.forEach((element) => {
-  placesList.append(
-    createCard(
-      element.link,
-      element.name,
-      deleteCard,
-      likeButtonFunction,
-      openImagePopupFunction
-    )
-  );
+/* Первичный (при загрузке страницы) рендер карточек и данных профиля */
+getAboutUser()
+  .then((result) => {
+    profileTitle.textContent = result.name;
+    prifileDescription.textContent = result.about;
+    avatar.style.backgroundImage = `url('${result.avatar}')`;
+  })
+  .catch((err) => {
+    console.error("Не удалось загрузить карточки:", err);
+  });
+
+getCardsArray().then((cards) => {
+  cards.forEach((element) => {
+    placesList.append(
+      createCard(
+        element.link,
+        element.name,
+        deleteCard,
+        likeButtonFunction,
+        openImagePopupFunction
+      )
+    );
+  });
 });
 
 /* Функция - обработчик событий клик */
@@ -71,7 +74,7 @@ fullPage.addEventListener("click", (evt) => {
     /* Закрытие по нажатию на кнопку */
   } else if (evt.target.classList.contains("popup__close")) {
     closeAnyPopupFunction(evt.target.closest(".popup"));
-    clearValidation(evt.target.closest(".popup"), validationConfig)
+    clearValidation(evt.target.closest(".popup"), validationConfig);
   }
 });
 
@@ -84,6 +87,10 @@ function handleEditProfileForm(evt) {
   evt.preventDefault();
   profileTitle.textContent = editProfileFormNameField.value;
   prifileDescription.textContent = editProfileFormDescriptionField.value;
+  updateUserProfile(
+    editProfileFormNameField.value,
+    editProfileFormDescriptionField.value
+  );
   closeAnyPopupFunction(profileEditModalWindow);
 }
 
@@ -94,21 +101,28 @@ function handleaddCardForm(evt) {
     ".popup__input_type_card-name"
   ).value;
   const newImageUrl = document.querySelector(".popup__input_type_url").value;
-  placesList.prepend(
-    createCard(
-      newImageUrl,
-      newImageName,
-      deleteCard,
-      likeButtonFunction,
-      openImagePopupFunction
-    )
-  );
-  addCardForm.reset();
-  closeAnyPopupFunction(addNewCardModalWindow);
+  createNewCard(newImageName, newImageUrl)
+    .then(cardData => {
+      const cardElement = createCard(
+        cardData.link,
+        cardData.name,
+        deleteCard,
+        likeButtonFunction,
+        openImagePopupFunction
+      );
+      placesList.prepend(cardElement);
+      addCardForm.reset();
+      closeAnyPopupFunction(addNewCardModalWindow);
+    })
+    .catch(err => {
+      console.error("Ошибка при создании карточки:", err);
+    });
 }
 
-addCardForm.addEventListener("submit",  handleaddCardForm);
-addCardForm.addEventListener("input", () => enableValidation(validationConfig)); 
+addCardForm.addEventListener("submit", handleaddCardForm);
+addCardForm.addEventListener("input", () => enableValidation(validationConfig));
 
 editProfileForm.addEventListener("submit", handleEditProfileForm);
-editProfileForm.addEventListener("input", () => enableValidation(validationConfig));
+editProfileForm.addEventListener("input", () =>
+  enableValidation(validationConfig)
+);
