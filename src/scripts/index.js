@@ -91,7 +91,7 @@ const editAvatarForm = document.forms["new-avatar"];
 function handleEditProfileForm(evt) {
   evt.preventDefault();
   profileTitle.textContent = editProfileFormNameField.value;
-  prifoleDescription.textContent = editProfileFormDescriptionField.value;
+  profileDescription.textContent = editProfileFormDescriptionField.value;
   updateUserProfile(
     editProfileFormNameField.value,
     editProfileFormDescriptionField.value
