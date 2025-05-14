@@ -73,7 +73,30 @@ export function updateUserProfile(newName, newAbout) {
     })
     .catch(err => {
       console.error("Ошибка при обновлении профиля:", err);
-      throw err; // Пробрасываем ошибку дальше для обработки в вызывающем коде
+      throw err;
+    });
+}
+
+export function updateUserAvatar(newAvatarUrl) {
+  return fetch("https://nomoreparties.co/v1/wff-cohort-39/users/me/avatar", {
+    method: "PATCH",
+    headers: {
+      authorization: "ca811722-b39a-47f2-8683-a15951454f2a",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      avatar: newAvatarUrl,
+    }),
+  })
+    .then(res => {
+      if (!res.ok) {
+        return Promise.reject(`Ошибка: ${res.status}`);
+      }
+      return res.json();
+    })
+    .catch(err => {
+      console.error("Ошибка при обновлении аватара:", err);
+      throw err;
     });
 }
 
@@ -99,4 +122,52 @@ export function createNewCard(newCardName, newCardLink) {
       console.error("Ошибка при создании карточки:", err);
       throw err;
     });
+}
+
+function deleteCardFromServer(cardId) {
+  return fetch(`https://nomoreparties.co/v1/wff-cohort-39/cards/${cardId}`, {
+    method: 'DELETE',
+    headers: {
+      authorization: "ca811722-b39a-47f2-8683-a15951454f2a",
+      "Content-Type": "application/json",
+    }
+  })
+  .then(res => {
+    if (!res.ok) {
+      return Promise.reject(`Ошибка: ${res.status}`);
+    }
+    return res.json();
+  });
+}
+
+function likeCard(cardId) {
+  return fetch(`https://nomoreparties.co/v1/wff-cohort-39/cards/likes/${cardId}`, {
+    method: 'PUT',
+    headers: {
+      authorization: "ca811722-b39a-47f2-8683-a15951454f2a",
+      "Content-Type": "application/json",
+    }
+  })
+  .then(res => {
+    if (!res.ok) {
+      return Promise.reject(`Ошибка: ${res.status}`);
+    }
+    return res.json();
+  });
+}
+
+function unlikeCard(cardId) {
+  return fetch(`https://nomoreparties.co/v1/wff-cohort-39/cards/likes/${cardId}`, {
+    method: 'DELETE',
+    headers: {
+      authorization: "ca811722-b39a-47f2-8683-a15951454f2a",
+      "Content-Type": "application/json",
+    }
+  })
+  .then(res => {
+    if (!res.ok) {
+      return Promise.reject(`Ошибка: ${res.status}`);
+    }
+    return res.json();
+  });
 }
