@@ -30,7 +30,7 @@ export function getAboutUser() {
       console.error("Ошибка при загрузке данных пользователя:", err);
       throw err;
     });
-}
+};
 
 export function getCardsArray() {
   return fetch("https://nomoreparties.co/v1/wff-cohort-39/cards", {
@@ -51,7 +51,7 @@ export function getCardsArray() {
       console.error("Ошибка при загрузке карточек:", err);
       throw err;
     });
-}
+};
 
 export function updateUserProfile(newName, newAbout) {
   return fetch("https://nomoreparties.co/v1/wff-cohort-39/users/me", {
@@ -75,7 +75,7 @@ export function updateUserProfile(newName, newAbout) {
       console.error("Ошибка при обновлении профиля:", err);
       throw err;
     });
-}
+};
 
 export function updateUserAvatar(newAvatarUrl) {
   return fetch("https://nomoreparties.co/v1/wff-cohort-39/users/me/avatar", {
@@ -98,7 +98,7 @@ export function updateUserAvatar(newAvatarUrl) {
       console.error("Ошибка при обновлении аватара:", err);
       throw err;
     });
-}
+};
 
 export function createNewCard(newCardName, newCardLink) {
   return fetch("https://nomoreparties.co/v1/wff-cohort-39/cards", {
@@ -122,9 +122,9 @@ export function createNewCard(newCardName, newCardLink) {
       console.error("Ошибка при создании карточки:", err);
       throw err;
     });
-}
+};
 
-function deleteCardFromServer(cardId) {
+export function deleteCardFromServer(cardId) {
   return fetch(`https://nomoreparties.co/v1/wff-cohort-39/cards/${cardId}`, {
     method: 'DELETE',
     headers: {
@@ -138,7 +138,7 @@ function deleteCardFromServer(cardId) {
     }
     return res.json();
   });
-}
+};
 
 export function likeCard(cardId) {
   return fetch(`https://nomoreparties.co/v1/wff-cohort-39/cards/likes/${cardId}`, {
@@ -154,7 +154,7 @@ export function likeCard(cardId) {
     }
     return res.json();
   });
-}
+};
 
 export function unlikeCard(cardId) {
   return fetch(`https://nomoreparties.co/v1/wff-cohort-39/cards/likes/${cardId}`, {
@@ -170,4 +170,4 @@ export function unlikeCard(cardId) {
     }
     return res.json();
   });
-}
+};

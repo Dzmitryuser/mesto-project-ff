@@ -1,4 +1,4 @@
-import { likeCard, unlikeCard } from "./api.js";
+import { likeCard, unlikeCard, deleteCardFromServer } from "./api.js";
 
 import { openAnyPopupFunction } from "./modal.js";
 const cardTemplate = document.querySelector("#card-template").content;
@@ -36,6 +36,7 @@ export function openImagePopupFunction(event) {
 /* Функция удаления карточки*/
 export function deleteCard(event) {
   const cardToDelete = event.target.closest(".places__item");
+  deleteCardFromServer(cardToDelete.id);
   cardToDelete.remove();
 }
 
@@ -59,6 +60,7 @@ export const createCard = (
   const placeClonedCard = cardTemplate.cloneNode(true);
 
   /* Наполняем элементы клонированной карточки*/
+  const wholeCard = placeClonedCard.querySelector(".places__item");
   const imageTitle = placeClonedCard.querySelector(".card__title");
   const cardImage = placeClonedCard.querySelector(".card__image");
   const likesCounter = placeClonedCard.querySelector(".card_likes_counter");
@@ -81,8 +83,9 @@ export const createCard = (
   imageTitle.textContent = cardName;
   likesCounter.textContent = likesArray.length;
   likesCounter.id = cardId;
+  wholeCard.id = cardId;
 
-  if (likesArray.some(like => like._id === userId)) {
+  if (likesArray.some((like) => like._id === userId)) {
     likeButton.classList.add("card__like-button_is-active");
   }
 

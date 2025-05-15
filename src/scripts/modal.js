@@ -1,7 +1,4 @@
-import {
-  clearValidation,
-  validationConfig
-} from "./validation.js";
+import { clearValidation, validationConfig } from "./validation.js";
 
 /* Функция открытия любого окна */
 export const openAnyPopupFunction = (popupToOpen) => {
@@ -16,7 +13,11 @@ export const closeAnyPopupFunction = (popupToClose) => {
   document.removeEventListener("click", handleOverlayClick);
   document.removeEventListener("keydown", handleEscapeKey);
   clearValidation(popupToClose, validationConfig);
-  popupToClose.querySelector('.popup__form').reset();
+
+  const form = popupToClose.querySelector(".popup__form");
+  if (form) {
+    form.reset();
+  }
 };
 
 /* Обработчик нажатия Esc */
