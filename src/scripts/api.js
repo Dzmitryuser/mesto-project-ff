@@ -140,7 +140,7 @@ function deleteCardFromServer(cardId) {
   });
 }
 
-function likeCard(cardId) {
+export function likeCard(cardId) {
   return fetch(`https://nomoreparties.co/v1/wff-cohort-39/cards/likes/${cardId}`, {
     method: 'PUT',
     headers: {
@@ -156,7 +156,7 @@ function likeCard(cardId) {
   });
 }
 
-function unlikeCard(cardId) {
+export function unlikeCard(cardId) {
   return fetch(`https://nomoreparties.co/v1/wff-cohort-39/cards/likes/${cardId}`, {
     method: 'DELETE',
     headers: {

@@ -14,9 +14,13 @@ import {
   validationConfig,
 } from "./validation.js";
 
-import { getAboutUser, getCardsArray, updateUserProfile, createNewCard, updateUserAvatar } from "./api.js";
-
-getAboutUser();
+import {
+  getAboutUser,
+  getCardsArray,
+  updateUserProfile,
+  createNewCard,
+  updateUserAvatar,
+} from "./api.js";
 
 const fullPage = document.querySelector(".page");
 const placesList = document.querySelector(".places__list");
@@ -25,40 +29,51 @@ const addNewCardModalWindow = document.querySelector(".popup_type_new-card");
 const editProfileFormNameField = document.querySelector(
   ".popup__input_type_name"
 );
-editProfileFormNameField;
+
 const editProfileFormDescriptionField = document.querySelector(
   ".popup__input_type_description"
 );
-const editAvatarModalWindow = document.querySelector(".popup_type_change_avatar");
-const editAvatarFormField = document.querySelector(".popup__input_avatar_change")
+const editAvatarModalWindow = document.querySelector(
+  ".popup_type_change_avatar"
+);
+const editAvatarFormField = document.querySelector(
+  ".popup__input_avatar_change"
+);
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 const avatar = document.querySelector(".profile__image");
 
 /* Первичный (при загрузке страницы) рендер карточек и данных профиля */
-getAboutUser()
-  .then((result) => {
-    profileTitle.textContent = result.name;
-    profileDescription.textContent = result.about;
-    avatar.style.backgroundImage = `url('${result.avatar}')`;
+Promise.all([getAboutUser(), getCardsArray()])
+  .then(([userData, cards]) => {
+    // Обновляем данные пользователя
+    profileTitle.textContent = userData.name;
+    profileDescription.textContent = userData.about;
+    avatar.style.backgroundImage = `url('${userData.avatar}')`;
+
+    // Очищаем контейнер перед добавлением новых карточек
+    placesList.innerHTML = "";
+
+    // Добавляем карточки с учетом ID пользователя
+    cards.forEach((card) => {
+      placesList.append(
+        createCard(
+          card.link,
+          card.name,
+          deleteCard,
+          likeButtonFunction,
+          openImagePopupFunction,
+          card._id,
+          userData._id,
+          card.likes,
+          card.owner._id
+        )
+      );
+    });
   })
   .catch((err) => {
-    console.error("Не удалось загрузить карточки:", err);
+    console.error("Ошибка при загрузке данных:", err);
   });
-
-getCardsArray().then((cards) => {
-  cards.forEach((element) => {
-    placesList.append(
-      createCard(
-        element.link,
-        element.name,
-        deleteCard,
-        likeButtonFunction,
-        openImagePopupFunction
-      )
-    );
-  });
-});
 
 /* Функция - обработчик событий клик */
 fullPage.addEventListener("click", (evt) => {
@@ -71,10 +86,11 @@ fullPage.addEventListener("click", (evt) => {
     /* Открытие окна добавления карточки */
   } else if (evt.target.classList.contains("profile__add-button")) {
     openAnyPopupFunction(addNewCardModalWindow);
-
-  } else if (evt.target.classList.contains("profile__image") || 
-    evt.target.classList.contains("profile__image-avatar")) {
-  openAnyPopupFunction(editAvatarModalWindow);
+  } else if (
+    evt.target.classList.contains("profile__image") ||
+    evt.target.classList.contains("profile__image-avatar")
+  ) {
+    openAnyPopupFunction(editAvatarModalWindow);
 
     /* Закрытие по нажатию на кнопку */
   } else if (evt.target.classList.contains("popup__close")) {
@@ -102,24 +118,22 @@ function handleEditProfileForm(evt) {
 
 // |||||||||||   https://i.ibb.co/zWxvKNdb/avatar.jpg   |||||||||||||||
 /* Функция изменения аватара */
-const handleEditAvatarForm = (evt)=>{
-evt.preventDefault();
-updateUserAvatar(editAvatarFormField.value);
-avatar.style.backgroundImage = `url('${editAvatarFormField.value}')`;
-closeAnyPopupFunction(editAvatarModalWindow);
-
-}
+const handleEditAvatarForm = (evt) => {
+  evt.preventDefault();
+  updateUserAvatar(editAvatarFormField.value);
+  avatar.style.backgroundImage = `url('${editAvatarFormField.value}')`;
+  closeAnyPopupFunction(editAvatarModalWindow);
+};
 
 /* Функция добавления карточки из данных формы */
 function handleaddCardForm(evt) {
   evt.preventDefault();
-  const likesAmount = 0;
   const newImageName = document.querySelector(
     ".popup__input_type_card-name"
   ).value;
   const newImageUrl = document.querySelector(".popup__input_type_url").value;
   createNewCard(newImageName, newImageUrl)
-    .then(cardData => {
+    .then((cardData) => {
       const cardElement = createCard(
         cardData.link,
         cardData.name,
@@ -131,7 +145,7 @@ function handleaddCardForm(evt) {
       addCardForm.reset();
       closeAnyPopupFunction(addNewCardModalWindow);
     })
-    .catch(err => {
+    .catch((err) => {
       console.error("Ошибка при создании карточки:", err);
     });
 }
@@ -146,4 +160,5 @@ editProfileForm.addEventListener("input", () =>
 
 editAvatarForm.addEventListener("submit", handleEditAvatarForm);
 editAvatarForm.addEventListener("input", () =>
-  enableValidation(validationConfig))
+  enableValidation(validationConfig)
+);
