@@ -44,17 +44,16 @@ const profileDescription = document.querySelector(".profile__description");
 const avatar = document.querySelector(".profile__image");
 
 /* Первичный (при загрузке страницы) рендер карточек и данных профиля */
+function initialCardRender () {
 Promise.all([getAboutUser(), getCardsArray()])
   .then(([userData, cards]) => {
-    // Обновляем данные пользователя
+
     profileTitle.textContent = userData.name;
     profileDescription.textContent = userData.about;
     avatar.style.backgroundImage = `url('${userData.avatar}')`;
 
-    // Очищаем контейнер перед добавлением новых карточек
     placesList.innerHTML = "";
 
-    // Добавляем карточки с учетом ID пользователя
     cards.forEach((card) => {
       placesList.append(
         createCard(
@@ -73,7 +72,8 @@ Promise.all([getAboutUser(), getCardsArray()])
   })
   .catch((err) => {
     console.error("Ошибка при загрузке данных:", err);
-  });
+  });}
+  initialCardRender()
 
 /* Функция - обработчик событий клик */
 fullPage.addEventListener("click", (evt) => {
@@ -128,22 +128,30 @@ const handleEditAvatarForm = (evt) => {
 /* Функция добавления карточки из данных формы */
 function handleaddCardForm(evt) {
   evt.preventDefault();
-  const newImageName = document.querySelector(
+  const newImageName = addCardForm.querySelector(
     ".popup__input_type_card-name"
   ).value;
-  const newImageUrl = document.querySelector(".popup__input_type_url").value;
+  const newImageUrl = addCardForm.querySelector(".popup__input_type_url").value;
+  
   createNewCard(newImageName, newImageUrl)
     .then((cardData) => {
-      const cardElement = createCard(
-        cardData.link,
-        cardData.name,
-        deleteCard,
-        likeButtonFunction,
-        openImagePopupFunction
-      );
-      placesList.prepend(cardElement);
-      addCardForm.reset();
-      closeAnyPopupFunction(addNewCardModalWindow);
+      return getAboutUser().then(userData => {
+        const cardElement = createCard(
+          cardData.link,
+          cardData.name,
+          deleteCard,
+          likeButtonFunction,
+          openImagePopupFunction,
+          cardData._id,
+          userData._id,
+          cardData.likes,
+          cardData.owner._id
+        );
+        console.log(cardData)
+        placesList.prepend(cardElement);
+        addCardForm.reset();
+        closeAnyPopupFunction(addNewCardModalWindow);
+      });
     })
     .catch((err) => {
       console.error("Ошибка при создании карточки:", err);
@@ -151,7 +159,8 @@ function handleaddCardForm(evt) {
 }
 
 addCardForm.addEventListener("submit", handleaddCardForm);
-addCardForm.addEventListener("input", () => enableValidation(validationConfig));
+addCardForm.addEventListener("input", () => 
+  enableValidation(validationConfig));
 
 editProfileForm.addEventListener("submit", handleEditProfileForm);
 editProfileForm.addEventListener("input", () =>
