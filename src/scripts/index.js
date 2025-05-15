@@ -72,7 +72,8 @@ fullPage.addEventListener("click", (evt) => {
   } else if (evt.target.classList.contains("profile__add-button")) {
     openAnyPopupFunction(addNewCardModalWindow);
 
-  } else if (evt.target.classList.contains("profile__image")) {
+  } else if (evt.target.classList.contains("profile__image") || 
+    evt.target.classList.contains("profile__image-avatar")) {
   openAnyPopupFunction(editAvatarModalWindow);
 
     /* Закрытие по нажатию на кнопку */
