@@ -22,6 +22,8 @@ import {
   updateUserAvatar,
 } from "./api.js";
 
+import { makeButtonChanged, makeButtonDefault } from "./modal.js";
+
 const fullPage = document.querySelector(".page");
 const placesList = document.querySelector(".places__list");
 const profileEditModalWindow = document.querySelector(".popup_type_edit");
@@ -44,36 +46,36 @@ const profileDescription = document.querySelector(".profile__description");
 const avatar = document.querySelector(".profile__image");
 
 /* Первичный (при загрузке страницы) рендер карточек и данных профиля */
-function initialCardRender () {
-Promise.all([getAboutUser(), getCardsArray()])
-  .then(([userData, cards]) => {
+function initialCardRender() {
+  Promise.all([getAboutUser(), getCardsArray()])
+    .then(([userData, cards]) => {
+      profileTitle.textContent = userData.name;
+      profileDescription.textContent = userData.about;
+      avatar.style.backgroundImage = `url('${userData.avatar}')`;
 
-    profileTitle.textContent = userData.name;
-    profileDescription.textContent = userData.about;
-    avatar.style.backgroundImage = `url('${userData.avatar}')`;
+      placesList.innerHTML = "";
 
-    placesList.innerHTML = "";
-
-    cards.forEach((card) => {
-      placesList.append(
-        createCard(
-          card.link,
-          card.name,
-          deleteCard,
-          likeButtonFunction,
-          openImagePopupFunction,
-          card._id,
-          userData._id,
-          card.likes,
-          card.owner._id
-        )
-      );
+      cards.forEach((card) => {
+        placesList.append(
+          createCard(
+            card.link,
+            card.name,
+            deleteCard,
+            likeButtonFunction,
+            openImagePopupFunction,
+            card._id,
+            userData._id,
+            card.likes,
+            card.owner._id
+          )
+        );
+      });
+    })
+    .catch((err) => {
+      console.error("Ошибка при загрузке данных:", err);
     });
-  })
-  .catch((err) => {
-    console.error("Ошибка при загрузке данных:", err);
-  });}
-  initialCardRender()
+}
+initialCardRender();
 
 /* Функция - обработчик событий клик */
 fullPage.addEventListener("click", (evt) => {
@@ -107,6 +109,7 @@ const editAvatarForm = document.forms["new-avatar"];
 /* Функция присвоения данных профиля из формы */
 function handleEditProfileForm(evt) {
   evt.preventDefault();
+  makeButtonChanged(evt);
   profileTitle.textContent = editProfileFormNameField.value;
   profileDescription.textContent = editProfileFormDescriptionField.value;
   updateUserProfile(
@@ -120,6 +123,7 @@ function handleEditProfileForm(evt) {
 // |||||||||||   https://i.ibb.co/zWxvKNdb/avatar.jpg   |||||||||||||||
 const handleEditAvatarForm = (evt) => {
   evt.preventDefault();
+  makeButtonChanged(evt);
   updateUserAvatar(editAvatarFormField.value);
   avatar.style.backgroundImage = `url('${editAvatarFormField.value}')`;
   closeAnyPopupFunction(editAvatarModalWindow);
@@ -128,14 +132,15 @@ const handleEditAvatarForm = (evt) => {
 /* Функция добавления карточки из данных формы */
 function handleaddCardForm(evt) {
   evt.preventDefault();
+  makeButtonChanged(evt);
   const newImageName = addCardForm.querySelector(
     ".popup__input_type_card-name"
   ).value;
   const newImageUrl = addCardForm.querySelector(".popup__input_type_url").value;
-  
+
   createNewCard(newImageName, newImageUrl)
     .then((cardData) => {
-      return getAboutUser().then(userData => {
+      return getAboutUser().then((userData) => {
         const cardElement = createCard(
           cardData.link,
           cardData.name,
@@ -147,7 +152,6 @@ function handleaddCardForm(evt) {
           cardData.likes,
           cardData.owner._id
         );
-        console.log(cardData)
         placesList.prepend(cardElement);
         addCardForm.reset();
         closeAnyPopupFunction(addNewCardModalWindow);
@@ -159,8 +163,7 @@ function handleaddCardForm(evt) {
 }
 
 addCardForm.addEventListener("submit", handleaddCardForm);
-addCardForm.addEventListener("input", () => 
-  enableValidation(validationConfig));
+addCardForm.addEventListener("input", () => enableValidation(validationConfig));
 
 editProfileForm.addEventListener("submit", handleEditProfileForm);
 editProfileForm.addEventListener("input", () =>
