@@ -103,7 +103,7 @@ export const createCard = (
   if (userId && ownerId && userId !== ownerId) {
     deleteButton.style.display = "none";
   } else {
-    deleteButton.style.display = "block"; // Убедимся, что кнопка видна
+    deleteButton.style.display = "block";
   }
 
   return placeClonedCard;
