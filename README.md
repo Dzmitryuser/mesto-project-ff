@@ -57,6 +57,7 @@ https://www.figma.com/design/BOu4PyRg0j7B70CHFy6jY3/5-%D1%81%D0%BF%D1%80%D0%B8%D
 - **Git** — для контроля версий.
 - **Figma** — для работы с макетами.
 - **JavaScript** — для добавления интерактивности.
+- **webpack** — для упаковки проекта перед деплоем и удобства разработки.
 
 ---
 
@@ -64,5 +65,20 @@ https://www.figma.com/design/BOu4PyRg0j7B70CHFy6jY3/5-%D1%81%D0%BF%D1%80%D0%B8%D
 
 1. Склонируйте репозиторий на свой компьютер:
    ```bash
+git clone git@github.com:Dzmitryuser/mesto-project-ff.git
+   ```
 
+2. Перейдите в папку проекта:
+   ```bash
+cd mesto-project-ff
+   ```
+
+3. Установите зависимости:
+   ```bash
+npm install
+   ```
+
+4. Запустите проект:
+   ```bash
+npm run dev
    ```
