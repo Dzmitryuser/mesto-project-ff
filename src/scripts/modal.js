@@ -1,7 +1,8 @@
-import { clearValidation, validationConfig } from "./validation.js";
+import { clearValidation, validationConfig, enableValidation } from "./validation.js";
 
 /* Функция открытия любого окна */
 export const openAnyPopupFunction = (popupToOpen) => {
+  enableValidation()
   popupToOpen.classList.add("popup_is-opened");
   document.addEventListener("click", handleOverlayClick);
   document.addEventListener("keydown", handleEscapeKey);

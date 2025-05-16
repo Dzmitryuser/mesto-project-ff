@@ -20,14 +20,10 @@
       </header>
       <main class="content">
         <section class="profile page__section">
-          <div class="profile__image">
-            <div
-              class="profile__image-avatar profile__image--editable"
-              style="
-                background-image: url('<%= require('./images/avatar.jpg') %>');
-              "
-            ></div>
-          </div>
+          
+<div class="profile__image profile__image--editable">
+  <div class="profile__image-avatar"></div>
+</div>
 
           <div class="popup popup_type_change_avatar popup_is-animated">
             <div class="popup__content">
@@ -156,6 +152,22 @@
           <div class="like_wraper">
             <button type="button" class="card__like-button"></button>
             <span class="card_likes_counter">0</span>
+
+<!-- TO DO
+            <div class="popup__content">
+              <button type="button" class="popup__close"></button>
+              <h3 class="popup__title">Вы уверены?</h3>
+              <form class="popup__form" name="delete_card" novalidate>
+                <button
+                  type="submit"
+                  class="button popup__button"
+                >
+                  Да
+                </button>
+              </form>
+            </div>
+-->
+
           </div>
         </div>
       </li>

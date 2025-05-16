@@ -44,7 +44,6 @@ const profileDescription = document.querySelector(".profile__description");
 const avatar = document.querySelector(".profile__image");
 
 /* Первичный (при загрузке страницы) рендер карточек и данных профиля */
-enableValidation()
 function initialCardRender () {
 Promise.all([getAboutUser(), getCardsArray()])
   .then(([userData, cards]) => {
