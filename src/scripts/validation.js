@@ -65,7 +65,7 @@ const setEventListeners = (formElement) => {
   });
 };
 
-export const enableValidation = () => {
+export const enableValidation = (validationConfig) => {
   const formList = Array.from(document.querySelectorAll(validationConfig.formSelector));
   
   formList.forEach((formElement) => {

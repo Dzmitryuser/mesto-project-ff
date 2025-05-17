@@ -12,18 +12,24 @@ export function likeButtonFunction(event) {
   const likesCounter = button
     .closest(".like_wraper")
     .querySelector(".card_likes_counter");
-  button.classList.toggle("card__like-button_is-active");
-  let currentLikes = parseInt(likesCounter.textContent);
 
   if (button.classList.contains("card__like-button_is-active")) {
-    currentLikes += 1;
-    likeCard(likesCounter.id);
+    unlikeCard(likesCounter.id).then((returnArray) => {
+      likesCounter.textContent = `${returnArray.likes.length}`;
+      button.classList.remove("card__like-button_is-active");
+    })
+    .catch((err) => {
+      console.error("Извините, что-то пошло не так, попробуйте еще раз", err);
+    });
   } else {
-    currentLikes -= 1;
-    unlikeCard(likesCounter.id);
+    likeCard(likesCounter.id).then((returnArray) => {
+      likesCounter.textContent = `${returnArray.likes.length}`;
+      button.classList.add("card__like-button_is-active");
+    })
+    .catch((err) => {
+      console.error("Извините, что-то пошло не так, попробуйте еще раз", err);
+    });
   }
-
-  likesCounter.textContent = Math.max(0, currentLikes);
 }
 
 /* Функционал попап с изображением */
@@ -36,8 +42,15 @@ export function openImagePopupFunction(event) {
 /* Функция удаления карточки*/
 export function deleteCard(event) {
   const cardToDelete = event.target.closest(".places__item");
-  deleteCardFromServer(cardToDelete.id);
-  cardToDelete.remove();
+
+  deleteCardFromServer(cardToDelete.id)
+    .then(() => {
+      cardToDelete.remove();
+    })
+    .catch((err) => {
+      console.error("Ошибка при удалении карточки:", err);
+      alert("Не удалось удалить карточку. Попробуйте ещё раз позднее.");
+    });
 }
 
 /* Функция добавления карточек */

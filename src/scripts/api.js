@@ -1,5 +1,8 @@
 const token = "ca811722-b39a-47f2-8683-a15951454f2a";
 const serverAddress = "https://nomoreparties.co/v1/wff-cohort-39/";
+const checkResponse = (res) => {
+  return res.ok ? res.json() : Promise.reject("Ошибка");
+};
 
 export function getAboutUser() {
   return fetch(`${serverAddress}users/me`, {
@@ -8,13 +11,7 @@ export function getAboutUser() {
     },
   })
     .then((res) => {
-      if (!res.ok) {
-        throw new Error(`Ошибка: ${res.status}`);
-      }
-      return res.json();
-    })
-    .then((result) => {
-      return result;
+      return checkResponse(res);
     })
     .catch((err) => {
       console.error("Ошибка при загрузке данных пользователя:", err);
@@ -29,13 +26,7 @@ export function getCardsArray() {
     },
   })
     .then((res) => {
-      if (!res.ok) {
-        throw new Error(`Ошибка: ${res.status}`);
-      }
-      return res.json();
-    })
-    .then((result) => {
-      return result;
+      return checkResponse(res);
     })
     .catch((err) => {
       console.error("Ошибка при загрузке карточек:", err);
@@ -56,10 +47,7 @@ export function updateUserProfile(newName, newAbout) {
     }),
   })
     .then((res) => {
-      if (!res.ok) {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
-      return res.json();
+      return checkResponse(res);
     })
     .catch((err) => {
       console.error("Ошибка при обновлении профиля:", err);
@@ -79,10 +67,7 @@ export function updateUserAvatar(newAvatarUrl) {
     }),
   })
     .then((res) => {
-      if (!res.ok) {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
-      return res.json();
+      return checkResponse(res);
     })
     .catch((err) => {
       console.error("Ошибка при обновлении аватара:", err);
@@ -103,10 +88,7 @@ export function createNewCard(newCardName, newCardLink) {
     }),
   })
     .then((res) => {
-      if (!res.ok) {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
-      return res.json();
+      return checkResponse(res);
     })
     .catch((err) => {
       console.error("Ошибка при создании карточки:", err);
@@ -123,10 +105,7 @@ export function deleteCardFromServer(cardId) {
     },
   })
     .then((res) => {
-      if (!res.ok) {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
-      return res.json();
+      return checkResponse(res);
     })
     .catch((err) => {
       console.error("Ошибка при удалении карточки:", err);
@@ -143,10 +122,7 @@ export function likeCard(cardId) {
     },
   })
     .then((res) => {
-      if (!res.ok) {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
-      return res.json();
+      return checkResponse(res);
     })
     .catch((err) => {
       console.error("Извините, что-то пошло не так, попробуйте еще раз", err);
@@ -163,10 +139,7 @@ export function unlikeCard(cardId) {
     },
   })
     .then((res) => {
-      if (!res.ok) {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
-      return res.json();
+      return checkResponse(res);
     })
     .catch((err) => {
       console.error("Извините, что-то пошло не так, попробуйте еще раз", err);

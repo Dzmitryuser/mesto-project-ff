@@ -1,7 +1,6 @@
 import {
   clearValidation,
   validationConfig,
-  enableValidation,
 } from "./validation.js";
 
 const buttonStates = {
@@ -11,7 +10,6 @@ const buttonStates = {
 
 //Функция открытия любого окна
 export const openAnyPopupFunction = (popupToOpen) => {
-  enableValidation();
   popupToOpen.classList.add("popup_is-opened");
   document.addEventListener("click", handleOverlayClick);
   document.addEventListener("keydown", handleEscapeKey);

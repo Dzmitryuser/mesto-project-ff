@@ -44,16 +44,19 @@ const editAvatarFormField = document.querySelector(
 const profileTitle = document.querySelector(".profile__title");
 const profileDescription = document.querySelector(".profile__description");
 const avatar = document.querySelector(".profile__image-avatar");
+let userId;
 
 // Первичный (при загрузке страницы) рендер карточек и данных профиля
+enableValidation(validationConfig);
+
 function initialCardRender() {
   Promise.all([getAboutUser(), getCardsArray()])
     .then(([userData, cards]) => {
       profileTitle.textContent = userData.name;
       profileDescription.textContent = userData.about;
       avatar.style.backgroundImage = `url('${userData.avatar}')`;
-
       placesList.innerHTML = "";
+      userId = userData._id
 
       cards.forEach((card) => {
         placesList.append(
@@ -165,14 +168,7 @@ function handleaddCardForm(evt) {
 }
 
 addCardForm.addEventListener("submit", handleaddCardForm);
-addCardForm.addEventListener("input", () => enableValidation(validationConfig));
 
 editProfileForm.addEventListener("submit", handleEditProfileForm);
-editProfileForm.addEventListener("input", () =>
-  enableValidation(validationConfig)
-);
 
 editAvatarForm.addEventListener("submit", handleEditAvatarForm);
-editAvatarForm.addEventListener("input", () =>
-  enableValidation(validationConfig)
-);
