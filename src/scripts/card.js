@@ -1,10 +1,6 @@
 import { likeCard, unlikeCard, deleteCardFromServer } from "./api.js";
 
-import { openAnyPopupFunction } from "./modal.js";
 const cardTemplate = document.querySelector("#card-template").content;
-const popupImageHolder = document.querySelector(".popup_type_image");
-const popupImage = document.querySelector(".popup__image");
-const popupImageCaption = document.querySelector(".popup__caption");
 
 /* Функционал лайка карточки */
 export function likeButtonFunction(event) {
@@ -14,30 +10,26 @@ export function likeButtonFunction(event) {
     .querySelector(".card_likes_counter");
 
   if (button.classList.contains("card__like-button_is-active")) {
-    unlikeCard(likesCounter.id).then((returnArray) => {
-      likesCounter.textContent = `${returnArray.likes.length}`;
+    unlikeCard(likesCounter.id).then((returnObj) => {
+      likesCounter.textContent = `${returnObj.likes.length}`;
+    })
+    .then(() => {
       button.classList.remove("card__like-button_is-active");
     })
     .catch((err) => {
       console.error("Извините, что-то пошло не так, попробуйте еще раз", err);
     });
   } else {
-    likeCard(likesCounter.id).then((returnArray) => {
-      likesCounter.textContent = `${returnArray.likes.length}`;
+    likeCard(likesCounter.id).then((returnObj) => {
+      likesCounter.textContent = `${returnObj.likes.length}`;
+    })
+    .then(() => {
       button.classList.add("card__like-button_is-active");
     })
     .catch((err) => {
       console.error("Извините, что-то пошло не так, попробуйте еще раз", err);
     });
   }
-}
-
-/* Функционал попап с изображением */
-export function openImagePopupFunction(event) {
-  popupImage.src = event.target.src;
-  popupImage.alt = event.target.alt
-  popupImageCaption.textContent = event.target.alt;
-  openAnyPopupFunction(popupImageHolder);
 }
 
 /* Функция удаления карточки*/

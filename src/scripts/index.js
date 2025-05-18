@@ -6,7 +6,6 @@ import {
   createCard,
   deleteCard,
   likeButtonFunction,
-  openImagePopupFunction,
 } from "./card.js";
 import {
   enableValidation,
@@ -57,6 +56,9 @@ const buttonStates = {
 let userId = null;
 const newImageName = addCardForm.querySelector(".popup__input_type_card-name");
 const newImageurl = addCardForm.querySelector(".popup__input_type_url");
+const popupImageHolder = document.querySelector(".popup_type_image");
+const popupImage = document.querySelector(".popup__image");
+const popupImageCaption = document.querySelector(".popup__caption");
 
 // Первичный (при загрузке страницы) рендер карточек и данных профиля
 enableValidation(validationConfig);
@@ -103,6 +105,14 @@ profileEditButton.addEventListener("click", () => {
 profileButton.addEventListener("click", () => {
   openAnyPopupFunction(addNewCardModalWindow);
 });
+
+// Функционал попап с изображением
+export function openImagePopupFunction(event) {
+  popupImage.src = event.target.src;
+  popupImage.alt = event.target.alt
+  popupImageCaption.textContent = event.target.alt;
+  openAnyPopupFunction(popupImageHolder);
+}
 
 avatarWraper.addEventListener("click", (evt) => {
   if (
