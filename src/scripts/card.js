@@ -35,6 +35,7 @@ export function likeButtonFunction(event) {
 /* Функционал попап с изображением */
 export function openImagePopupFunction(event) {
   popupImage.src = event.target.src;
+  popupImage.alt = event.target.alt
   popupImageCaption.textContent = event.target.alt;
   openAnyPopupFunction(popupImageHolder);
 }

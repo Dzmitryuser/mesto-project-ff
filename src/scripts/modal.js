@@ -1,13 +1,3 @@
-import {
-  clearValidation,
-  validationConfig,
-} from "./validation.js";
-
-const buttonStates = {
-  default: "Сохранить",
-  changed: "Сохранение...",
-};
-
 //Функция открытия любого окна
 export const openAnyPopupFunction = (popupToOpen) => {
   popupToOpen.classList.add("popup_is-opened");
@@ -20,12 +10,6 @@ export const closeAnyPopupFunction = (popupToClose) => {
   popupToClose.classList.remove("popup_is-opened");
   document.removeEventListener("click", handleOverlayClick);
   document.removeEventListener("keydown", handleEscapeKey);
-  clearValidation(popupToClose, validationConfig);
-
-  const form = popupToClose.querySelector(".popup__form");
-  if (form) {
-    form.reset();
-  }
 };
 
 // Обработчик нажатия Esc
