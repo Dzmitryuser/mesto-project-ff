@@ -13,8 +13,6 @@ export const openAnyPopupFunction = (popupToOpen) => {
   popupToOpen.classList.add("popup_is-opened");
   document.addEventListener("click", handleOverlayClick);
   document.addEventListener("keydown", handleEscapeKey);
-  const openedPopupForm = popupToOpen.querySelector(".popup__form");
-  makeButtonDefault(openedPopupForm);
 };
 
 //Функция закрытия любого окна
@@ -47,20 +45,4 @@ export function handleOverlayClick(evt) {
   }
 }
 
-export function makeButtonChanged(form) {
-  const button = form.target.querySelector(".button");
-  if (button.textContent.trim() == buttonStates.default) {
-    button.textContent = buttonStates.changed;
-  }
-}
 
-export function makeButtonDefault(form) {
-  if (form) {
-    const button = form.querySelector(".button");
-    if (button && button.textContent.trim() == buttonStates.changed) {
-      button.textContent = buttonStates.default;
-    } else {
-      return;
-    }
-  }
-}
