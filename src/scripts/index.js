@@ -10,7 +10,6 @@ import {
 import {
   enableValidation,
   clearValidation,
-  validationConfig,
 } from "./validation.js";
 
 import {
@@ -25,6 +24,15 @@ import {
 const editProfileForm = document.forms["edit-profile"];
 const addCardForm = document.forms["new-place"];
 const editAvatarForm = document.forms["new-avatar"];
+
+export const validationConfig = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visible",
+};
 
 const placesList = document.querySelector(".places__list");
 const profileEditModalWindow = document.querySelector(".popup_type_edit");
@@ -127,15 +135,8 @@ avatarWraper.addEventListener("click", (evt) => {
 closeButtons.forEach((button) => {
   button.addEventListener("click", (evt) => {
     const popupToClose = evt.target.closest(".popup");
-
     if (!popupToClose) return;
-
-    closeAnyPopupFunction(popupToClose);
-
-    clearValidation(popupToClose, validationConfig);
-
-    const form = popupToClose.querySelector(".popup__form");
-    form?.reset();
+    closeAnyPopupFunction(popupToClose, clearValidation, validationConfig);
   });
 });
 
@@ -153,16 +154,12 @@ function handleEditProfileForm(evt) {
       profileDescription.textContent = res.about;
     })
     .then((data) => {
-      closeAnyPopupFunction(profileEditModalWindow);
-
-      const form = profileEditModalWindow.querySelector(".popup__form");
-      form?.reset();
-
-      clearValidation(profileEditModalWindow, validationConfig);
-      makeButtonDefault(profileEditModalWindow);
+      closeAnyPopupFunction(profileEditModalWindow, clearValidation, validationConfig);
     })
     .catch((err) => {
       console.error("Ошибка при изменении данных:", err);
+    })
+    .finally(() => {
       makeButtonDefault(profileEditModalWindow);
     });
 }
@@ -178,18 +175,14 @@ const handleEditAvatarForm = (evt) => {
       avatar.style.backgroundImage = `url('${res.avatar}')`;
     })
     .then((res) => {
-      closeAnyPopupFunction(editAvatarModalWindow);
-
-      const form = editAvatarModalWindow.querySelector(".popup__form");
-      form?.reset();
-
-      clearValidation(editAvatarModalWindow, validationConfig);
-      makeButtonDefault(editAvatarModalWindow);
+      closeAnyPopupFunction(editAvatarModalWindow, clearValidation, validationConfig);
     })
     .catch((err) => {
       console.error("Ошибка при изменении аватара профиля:", err);
+    })
+    .finally(() => {
       makeButtonDefault(editAvatarModalWindow);
-    });
+    })
 };
 
 // Функция добавления карточки из данных формы
@@ -212,16 +205,14 @@ function handleaddCardForm(evt) {
       );
       placesList.prepend(cardElement);
       addCardForm.reset();
-      closeAnyPopupFunction(addNewCardModalWindow);
-
-      const form = addNewCardModalWindow.querySelector(".popup__form");
-      form?.reset();
-
-      clearValidation(addNewCardModalWindow, validationConfig);
+      closeAnyPopupFunction(addNewCardModalWindow, clearValidation, validationConfig);
     })
     .catch((err) => {
       console.error("Ошибка при создании карточки:", err);
-    });
+    })
+    .finally(() => {
+      makeButtonDefault(addNewCardModalWindow);
+    })
 }
 
 addCardForm.addEventListener("submit", handleaddCardForm);
