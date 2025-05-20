@@ -1,10 +1,6 @@
-import {
-  clearValidation,
-} from "./validation.js";
+import { clearValidation } from "./validation.js";
 
-import {
-  validationConfig,
-} from "./index.js";
+import { validationConfig } from "./index.js";
 
 //Функция открытия любого окна
 export const openAnyPopupFunction = (popupToOpen) => {
@@ -14,19 +10,23 @@ export const openAnyPopupFunction = (popupToOpen) => {
 };
 
 //Функция закрытия любого окна
-export const closeAnyPopupFunction = (popupToClose, clearValidation, validationConfig) => {
+export const closeAnyPopupFunction = (
+  popupToClose,
+  clearValidation,
+  validationConfig
+) => {
   popupToClose.classList.remove("popup_is-opened");
   document.removeEventListener("click", handleOverlayClick);
   document.removeEventListener("keydown", handleEscapeKey);
   const form = popupToClose.querySelector(".popup__form");
   form?.reset();
-  if(form) {
+  if (form) {
     clearValidation(form, validationConfig);
   }
 };
 
 // Обработчик нажатия Esc
-export function handleEscapeKey(evt) {
+function handleEscapeKey(evt) {
   if (evt.key === "Escape") {
     const openedPopup = document.querySelector(".popup_is-opened");
     if (openedPopup) {
@@ -36,10 +36,8 @@ export function handleEscapeKey(evt) {
 }
 
 // Обработчик клика по оверлею
-export function handleOverlayClick(evt) {
+function handleOverlayClick(evt) {
   if (evt.target.classList.contains("popup")) {
     closeAnyPopupFunction(evt.target, clearValidation, validationConfig);
   }
 }
-
-

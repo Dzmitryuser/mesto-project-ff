@@ -2,15 +2,8 @@ import likedButton from "../images/like-active.svg";
 import unlikedButton from "../images/like-inactive.svg";
 import "../pages/index.css";
 import { openAnyPopupFunction, closeAnyPopupFunction } from "./modal.js";
-import {
-  createCard,
-  deleteCard,
-  likeButtonFunction,
-} from "./card.js";
-import {
-  enableValidation,
-  clearValidation,
-} from "./validation.js";
+import { createCard, deleteCard, likeButtonFunction } from "./card.js";
+import { enableValidation, clearValidation } from "./validation.js";
 
 import {
   getAboutUser,
@@ -117,7 +110,7 @@ profileButton.addEventListener("click", () => {
 // Функционал попап с изображением
 export function openImagePopupFunction(event) {
   popupImage.src = event.target.src;
-  popupImage.alt = event.target.alt
+  popupImage.alt = event.target.alt;
   popupImageCaption.textContent = event.target.alt;
   openAnyPopupFunction(popupImageHolder);
 }
@@ -154,7 +147,11 @@ function handleEditProfileForm(evt) {
       profileDescription.textContent = res.about;
     })
     .then((data) => {
-      closeAnyPopupFunction(profileEditModalWindow, clearValidation, validationConfig);
+      closeAnyPopupFunction(
+        profileEditModalWindow,
+        clearValidation,
+        validationConfig
+      );
     })
     .catch((err) => {
       console.error("Ошибка при изменении данных:", err);
@@ -175,14 +172,18 @@ const handleEditAvatarForm = (evt) => {
       avatar.style.backgroundImage = `url('${res.avatar}')`;
     })
     .then((res) => {
-      closeAnyPopupFunction(editAvatarModalWindow, clearValidation, validationConfig);
+      closeAnyPopupFunction(
+        editAvatarModalWindow,
+        clearValidation,
+        validationConfig
+      );
     })
     .catch((err) => {
       console.error("Ошибка при изменении аватара профиля:", err);
     })
     .finally(() => {
       makeButtonDefault(editAvatarModalWindow);
-    })
+    });
 };
 
 // Функция добавления карточки из данных формы
@@ -205,14 +206,18 @@ function handleaddCardForm(evt) {
       );
       placesList.prepend(cardElement);
       addCardForm.reset();
-      closeAnyPopupFunction(addNewCardModalWindow, clearValidation, validationConfig);
+      closeAnyPopupFunction(
+        addNewCardModalWindow,
+        clearValidation,
+        validationConfig
+      );
     })
     .catch((err) => {
       console.error("Ошибка при создании карточки:", err);
     })
     .finally(() => {
       makeButtonDefault(addNewCardModalWindow);
-    })
+    });
 }
 
 addCardForm.addEventListener("submit", handleaddCardForm);

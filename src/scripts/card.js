@@ -10,25 +10,27 @@ export function likeButtonFunction(event) {
     .querySelector(".card_likes_counter");
 
   if (button.classList.contains("card__like-button_is-active")) {
-    unlikeCard(likesCounter.id).then((returnObj) => {
-      likesCounter.textContent = `${returnObj.likes.length}`;
-    })
-    .then(() => {
-      button.classList.remove("card__like-button_is-active");
-    })
-    .catch((err) => {
-      console.error("Извините, что-то пошло не так, попробуйте еще раз", err);
-    });
+    unlikeCard(likesCounter.id)
+      .then((returnObj) => {
+        likesCounter.textContent = `${returnObj.likes.length}`;
+      })
+      .then(() => {
+        button.classList.remove("card__like-button_is-active");
+      })
+      .catch((err) => {
+        console.error("Извините, что-то пошло не так, попробуйте еще раз", err);
+      });
   } else {
-    likeCard(likesCounter.id).then((returnObj) => {
-      likesCounter.textContent = `${returnObj.likes.length}`;
-    })
-    .then(() => {
-      button.classList.add("card__like-button_is-active");
-    })
-    .catch((err) => {
-      console.error("Извините, что-то пошло не так, попробуйте еще раз", err);
-    });
+    likeCard(likesCounter.id)
+      .then((returnObj) => {
+        likesCounter.textContent = `${returnObj.likes.length}`;
+      })
+      .then(() => {
+        button.classList.add("card__like-button_is-active");
+      })
+      .catch((err) => {
+        console.error("Извините, что-то пошло не так, попробуйте еще раз", err);
+      });
   }
 }
 
